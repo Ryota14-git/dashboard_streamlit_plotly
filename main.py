@@ -19,15 +19,11 @@ except ImportError:
 MODEL_PRICES = {
     "input": {
         "gpt-3.5-turbo": 0.5 / 1_000_000,
-        "gpt-4o": 5 / 1_000_000,
-        "claude-3-5-sonnet-20240620": 3 / 1_000_000,
-        "gemini-1.5-pro-latest": 3.5 / 1_000_000
+        "gpt-4o": 5 / 1_000_000
     },
     "output": {
         "gpt-3.5-turbo": 1.5 / 1_000_000,
         "gpt-4o": 15 / 1_000_000,
-        "claude-3-5-sonnet-20240620": 15 / 1_000_000,
-        "gemini-1.5-pro-latest": 10.5 / 1_000_000
     }
 }
 
@@ -56,7 +52,7 @@ def select_model():
     temperature = st.sidebar.slider(
         "Temperature:", min_value=0.0, max_value=2.0, value=0.0, step=0.01)
 
-    models = ("GPT-3.5", "GPT-4", "Claude 3.5 Sonnet", "Gemini 1.5 Pro")
+    models = ("GPT-3.5", "GPT-4")
     model = st.sidebar.radio("Choose a model:", models)
     if model == "GPT-3.5":
         st.session_state.model_name = "gpt-3.5-turbo"
@@ -70,18 +66,7 @@ def select_model():
             temperature=temperature,
             model_name=st.session_state.model_name
         )
-    elif model == "Claude 3.5 Sonnet":
-        st.session_state.model_name = "claude-3-5-sonnet-20240620"
-        return ChatAnthropic(
-            temperature=temperature,
-            model_name=st.session_state.model_name
-        )
-    elif model == "Gemini 1.5 Pro":
-        st.session_state.model_name = "gemini-1.5-pro-latest"
-        return ChatGoogleGenerativeAI(
-            temperature=temperature,
-            model=st.session_state.model_name
-        )
+
 
 
 def init_chain():
